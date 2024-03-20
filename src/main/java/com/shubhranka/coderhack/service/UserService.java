@@ -28,6 +28,11 @@ public class UserService {
             throw new UserException("Score cannot be negative", HttpStatus.BAD_REQUEST);
         if(user.getScore()>100)
             throw new UserException("Score cannot be greater than 100", HttpStatus.BAD_REQUEST);
+
+        User foundUser = userRepository.findByUserId(user.getUserId());
+        if(foundUser!=null)
+            throw new UserException("User already exists",HttpStatus.CONFLICT);
+
     }
 
     private void updateBadges(User user) {
@@ -40,5 +45,7 @@ public class UserService {
             }
         }
     }
+
+
 
 }
