@@ -23,9 +23,9 @@ public class UserController {
         return "User with ID " + userService.createUser(user).getUserId() + " created successfully";
     }
 
-    @PutMapping
-    public String updateUser(@RequestBody UpdateUserDto user) {
-        return "Scores given to  ID " + userService.updateUser(user).getUserId() + " updated successfully";
+    @PutMapping("/{id}")
+    public String updateUser(@PathVariable String id, @RequestBody UpdateUserDto user) {
+        return "Scores given to  ID " + userService.updateUser(id,user).getUserId() + " updated successfully";
     }
 
     @GetMapping("/{id}")

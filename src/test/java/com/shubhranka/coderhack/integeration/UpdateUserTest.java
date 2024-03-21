@@ -37,7 +37,7 @@ public class UpdateUserTest {
 
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(testUser);
 
-        mvc.perform(put("/users")
+        mvc.perform(put("/users/test_2")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":50}"))
                 .andExpect(status().isOk());
@@ -47,7 +47,7 @@ public class UpdateUserTest {
     @Test
     public void shouldHave1BadgeWhenScoreIs29() throws Exception {
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(testUser);
-        mvc.perform(put("/users")
+        mvc.perform(put("/users/test_2")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":29}"))
                 .andExpect(status().isOk());
@@ -62,7 +62,7 @@ public class UpdateUserTest {
     @Test
     public void shouldHave2BadgesWhenScoreIs50() throws Exception {
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(testUser);
-        mvc.perform(put("/users")
+        mvc.perform(put("/users/test_2")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":50}"))
                 .andExpect(status().isOk());
@@ -76,7 +76,7 @@ public class UpdateUserTest {
     @Test
     public void shouldHave3BadgesWhenScoreIs100() throws Exception {
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(testUser);
-        mvc.perform(put("/users")
+        mvc.perform(put("/users/test_2")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":100}"))
                 .andExpect(status().isOk());
@@ -93,7 +93,7 @@ public class UpdateUserTest {
 
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(null);
 
-        mvc.perform(put("/users")
+        mvc.perform(put("/users/test_2")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":50}"))
                 .andExpect(status().isNotFound());
@@ -106,7 +106,7 @@ public class UpdateUserTest {
 
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(testUser);
 
-        mvc.perform(put("/users")
+        mvc.perform(put("/users/test_2")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":-50}"))
                 .andExpect(status().isBadRequest());
@@ -119,7 +119,7 @@ public class UpdateUserTest {
 
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(testUser);
 
-        mvc.perform(put("/users")
+        mvc.perform(put("/users/test_2")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":150}"))
                 .andExpect(status().isBadRequest());

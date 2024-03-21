@@ -13,9 +13,6 @@ import lombok.Setter;
 public class UpdateUserDto {
 
     @NonNull
-    private String userId;
-
-    @NonNull
     private byte score;
 
 }

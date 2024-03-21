@@ -55,12 +55,12 @@ public class UserService {
             throw new UserException("Score cannot be greater than 100", HttpStatus.BAD_REQUEST);
     }
 
-    public User updateUser(UpdateUserDto user) {
-        if(!checkUserAlreadyExists(user.getUserId())) {
+    public User updateUser(String id, UpdateUserDto user) {
+        if(!checkUserAlreadyExists(id)) {
             throw new UserException("User does not exist", HttpStatus.NOT_FOUND);
         }
         validateScore(user.getScore());
-        User foundUser = userRepository.findByUserId(user.getUserId());
+        User foundUser = userRepository.findByUserId(id);
         foundUser.setScore(user.getScore());
         updateBadges(foundUser);
         userRepository.save(foundUser);
@@ -81,7 +81,9 @@ public class UserService {
     }
 
     public ArrayList<User> getAllUsers() {
-        return (ArrayList<User>) userRepository.findAll();
+        ArrayList<User> users = (ArrayList<User>) userRepository.findAll();
+        users.sort((o1, o2) -> o2.getScore()-o1.getScore());
+        return users;
     }
 
 
