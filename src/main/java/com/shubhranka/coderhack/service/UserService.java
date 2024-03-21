@@ -1,5 +1,6 @@
 package com.shubhranka.coderhack.service;
 
+import com.shubhranka.coderhack.dto.CreateUserDto;
 import com.shubhranka.coderhack.dto.UpdateUserDto;
 import com.shubhranka.coderhack.entity.User;
 import com.shubhranka.coderhack.enums.Badge;
@@ -16,30 +17,23 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    public User createUser(User user) {
+    public User createUser(CreateUserDto userDto) {
+
+        User user = new User(userDto.getUserId(),userDto.getUserName());
         validateUser(user);
-        updateBadges(user);
         userRepository.save(user);
 
         return user;
     }
 
-    private void validateScore(byte score) {
-        if(score<0)
-            throw new UserException("Score cannot be negative", HttpStatus.BAD_REQUEST);
-        if(score>100)
-            throw new UserException("Score cannot be greater than 100", HttpStatus.BAD_REQUEST);
-    }
-
     private void validateUser(User user) {
-        validateScore(user.getScore());
         if(checkUserAlreadyExists(user.getUserId())) throw new UserException("User already exists", HttpStatus.CONFLICT);
 
     }
 
     private boolean checkUserAlreadyExists(String userId) {
         User foundUser = userRepository.findByUserId(userId);
-        return foundUser == null;
+        return foundUser != null;
     }
 
     private void updateBadges(User user) {
@@ -54,6 +48,13 @@ public class UserService {
     }
 
 
+    private void validateScore(byte score) {
+        if(score<0)
+            throw new UserException("Score cannot be negative", HttpStatus.BAD_REQUEST);
+        if(score>100)
+            throw new UserException("Score cannot be greater than 100", HttpStatus.BAD_REQUEST);
+    }
+
     public User updateUser(UpdateUserDto user) {
         if(!checkUserAlreadyExists(user.getUserId())) {
             throw new UserException("User does not exist", HttpStatus.NOT_FOUND);
@@ -64,6 +65,23 @@ public class UserService {
         updateBadges(foundUser);
         userRepository.save(foundUser);
         return foundUser;
+    }
+
+    public User getUser(String userId) {
+        User user = userRepository.findByUserId(userId);
+        if(user == null) throw new UserException("User does not exist", HttpStatus.NOT_FOUND);
+        return user;
+    }
+
+    public User deleteUser(String userId) {
+        User user = userRepository.findByUserId(userId);
+        if(user == null) throw new UserException("User does not exist", HttpStatus.NOT_FOUND);
+        userRepository.delete(user);
+        return user;
+    }
+
+    public ArrayList<User> getAllUsers() {
+        return (ArrayList<User>) userRepository.findAll();
     }
 
 

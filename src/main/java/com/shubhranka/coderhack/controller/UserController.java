@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -18,8 +20,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String createUser(@RequestBody CreateUserDto user) {
-        User newUser = new User(user.getUserId(), user.getUserName());
-        return "User with ID " + userService.createUser(newUser).getUserId() + " created successfully";
+        return "User with ID " + userService.createUser(user).getUserId() + " created successfully";
     }
 
     @PutMapping
@@ -27,8 +28,18 @@ public class UserController {
         return "Scores given to  ID " + userService.updateUser(user).getUserId() + " updated successfully";
     }
 
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
+    @DeleteMapping
+    public String deleteUser(@RequestParam String id) {
+        return "User with ID " + userService.deleteUser(id).getUserId() + " deleted successfully";
+    }
+
     @GetMapping
-    public String getUser() {
-        return "Hi;";
+    public ArrayList<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 }

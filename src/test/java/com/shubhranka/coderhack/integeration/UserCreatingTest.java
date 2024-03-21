@@ -33,7 +33,7 @@ public class UserCreatingTest {
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(new User("test_2", "test_user", (byte) 50, null));
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(null);
 
-        mvc.perform(post("/users/register")
+        mvc.perform(post("/users")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":50}"))
                 .andExpect(status().isCreated());
@@ -46,36 +46,10 @@ public class UserCreatingTest {
 
         Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(new User("test_2", "test_user", (byte) 50, null));
 
-        mvc.perform(post("/users/register")
+        mvc.perform(post("/users")
                         .contentType("application/json")
                         .content("{\"userId\":\"test_2\",\"score\":50}"))
                 .andExpect(status().isConflict());
-
-    }
-
-    @Test
-    public void createUserWithStatus400()
-            throws Exception {
-
-        Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(null);
-
-        mvc.perform(post("/users/register")
-                        .contentType("application/json")
-                        .content("{\"userId\":\"test_2\",\"score\":-50}"))
-                .andExpect(status().isBadRequest());
-
-    }
-
-    @Test
-    public void createUserWithStatus400_2()
-            throws Exception {
-
-        Mockito.when(userRepository.findByUserId(Mockito.anyString())).thenReturn(null);
-
-        mvc.perform(post("/users/register")
-                        .contentType("application/json")
-                        .content("{\"userId\":\"test_2\",\"score\":150}"))
-                .andExpect(status().isBadRequest());
 
     }
 }
