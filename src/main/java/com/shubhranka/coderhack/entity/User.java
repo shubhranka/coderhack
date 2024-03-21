@@ -26,4 +26,9 @@ public class User {
     @Nullable
     private ArrayList<String> badges;
 
+    public User(String userId, String userName) {
+        this.userId = userId;
+        this.userName = userName;
+    }
+
 }

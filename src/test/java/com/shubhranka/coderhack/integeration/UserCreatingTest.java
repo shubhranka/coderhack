@@ -1,4 +1,4 @@
-package com.shubhranka.coderhack.userCreationTest;
+package com.shubhranka.coderhack.integeration;
 
 import com.shubhranka.coderhack.entity.User;
 import com.shubhranka.coderhack.repository.UserRepository;
